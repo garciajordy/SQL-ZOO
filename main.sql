@@ -116,3 +116,39 @@ FROM world WHERE LEFT(name,1) = LEFT(capital,1) AND NOT name = capital
 
 10) SELECT * FROM nobel WHERE (yr < '1910' AND subject = 'Medicine') OR (subject = 'Literature' AND yr > '2003')
 
+-- SELECT within SELECT Tutorial
+
+1) SELECT name FROM world
+  WHERE population >
+     (SELECT population FROM world
+      WHERE name='Russia')
+
+2) SELECT name FROM world
+  WHERE (gdp/population >
+     (SELECT gdp/population FROM world
+      WHERE name='United Kingdom')) AND continent = 'Europe'
+
+3) SELECT name, continent FROM world
+  WHERE continent = 'South America' OR continent = 'Oceania'
+
+4) SELECT name, population FROM world
+  WHERE population > (SELECT population FROM world WHERE name = 'Canada') AND population < (SELECT population FROM world WHERE name = 'Poland')
+
+5) SELECT name, CONCAT(ROUND((100/(SELECT population FROM world WHERE name = 'Germany')*population),0),'%') FROM world
+  WHERE continent = 'Europe'
+
+6) SELECT name
+  FROM world
+ WHERE gdp > ALL(SELECT gdp
+                           FROM world
+                          WHERE continent = 'Europe' AND gdp > 0)
+
+7) SELECT continent, name, area FROM world x
+  WHERE area >= ALL
+    (SELECT area FROM world y
+        WHERE y.continent=x.continent
+          AND area>0)
+
+8) SELECT continent, MIN(name) AS name
+FROM world 
+GROUP BY continent
