@@ -218,3 +218,51 @@ FROM world GROUP BY continent
 9) SELECT title FROM movie JOIN casting ON (movie.id=movieid) JOIN actor ON (actorid=actor.id) WHERE name =  'Harrison Ford' AND NOT ord = '1'
 
 10) SELECT title,name FROM movie JOIN casting ON (movie.id=movieid) JOIN actor ON (actorid=actor.id) WHERE ord = '1' AND yr = '1962'
+
+-- Using Null
+
+1) SELECT name FROM teacher WHERE dept IS NULL
+
+2) SELECT teacher.name, dept.name
+ FROM teacher INNER JOIN dept
+           ON (teacher.dept=dept.id)
+
+3) SELECT teacher.name, dept.name
+ FROM teacher LEFT JOIN dept
+           ON (teacher.dept=dept.id)
+
+4) SELECT teacher.name, dept.name
+ FROM teacher RIGHT JOIN dept
+           ON (teacher.dept=dept.id)
+
+5) SELECT teacher.name, COALESCE(mobile,'07986 444 2266')
+ FROM teacher LEFT JOIN dept
+           ON (teacher.dept=dept.id)
+
+6) SELECT teacher.name, COALESCE(dept.name,'None')
+ FROM teacher LEFT JOIN dept
+           ON (teacher.dept=dept.id)
+
+7) SELECT COUNT(teacher.name), COUNT(mobile)
+ FROM teacher LEFT JOIN dept
+           ON (teacher.dept=dept.id)
+
+8) SELECT  dept.name,COUNT(teacher.name)
+ FROM teacher RIGHT JOIN dept
+           ON (teacher.dept=dept.id) GROUP BY dept.name
+
+9) SELECT  teacher.name, CASE WHEN teacher.dept IN ('1','2')
+THEN 'Sci'
+ELSE 'Art'
+END
+ FROM teacher
+
+10) SELECT  teacher.name, CASE 
+WHEN teacher.dept IN ('1','2')
+THEN 'Sci'
+WHEN teacher.dept = '3'
+THEN 'Art'
+ELSE 'None'
+END
+ FROM teacher
+
