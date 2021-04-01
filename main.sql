@@ -194,3 +194,27 @@ FROM world GROUP BY continent
 6) SELECT mdate, teamname FROM game JOIN eteam ON (game.team1 = eteam.id) WHERE coach = 'Fernando Santos'
 
 7) SELECT player FROM goal JOIN game ON (matchid=id) WHERE stadium = 'National Stadium, Warsaw'
+
+-- More JOIN operations
+
+1) SELECT id, title
+ FROM movie
+ WHERE yr=1962
+
+2) SELECT yr FROM movie WHERE title = 'Citizen Kane'
+
+3) SELECT id, title, yr FROM movie WHERE title LIKE 'Star Trek%'
+
+4) SELECT id FROM actor WHERE name =  'Glenn Close'
+
+5) SELECT id FROM movie WHERE title = 'Casablanca'
+
+6) SELECT name FROM actor WHERE id IN (SELECT actorid FROM casting WHERE movieid = '27')
+
+7) SELECT name FROM actor JOIN casting ON (actorid=actor.id) JOIN movie ON (movie.id=movieid) WHERE movieid = (SELECT id FROM movie WHERE title = 'Alien')
+
+8) SELECT title FROM movie JOIN casting ON (movie.id=movieid) JOIN actor ON (actorid=actor.id) WHERE name =  'Harrison Ford'
+
+9) SELECT title FROM movie JOIN casting ON (movie.id=movieid) JOIN actor ON (actorid=actor.id) WHERE name =  'Harrison Ford' AND NOT ord = '1'
+
+10) SELECT title,name FROM movie JOIN casting ON (movie.id=movieid) JOIN actor ON (actorid=actor.id) WHERE ord = '1' AND yr = '1962'
